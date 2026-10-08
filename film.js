@@ -8,7 +8,11 @@ export function poemBackdropMask(x,side='right',width=.32){
  return 1-u*u*(3-2*u);
 }
 export function createFilm(renderer){
- const target=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,samples:2}),blurX=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthBuffer:false}),blurY=new T.WebGLRenderTarget(1,1,{type:T.HalfFloatType,depthBuffer:false});
+ // Mobile GPUs do not all support rendering into floating-point colour buffers.
+ // Keep the same film composition, with byte targets on unsupported hardware.
+ const floatColour=renderer.extensions.has('EXT_color_buffer_float'),type=floatColour?T.HalfFloatType:T.UnsignedByteType;
+ const samples=renderer.userData?.constrainedDevice||!floatColour?0:Math.min(2,renderer.capabilities.maxSamples);
+ const target=new T.WebGLRenderTarget(1,1,{type,samples}),blurX=new T.WebGLRenderTarget(1,1,{type,depthBuffer:false}),blurY=new T.WebGLRenderTarget(1,1,{type,depthBuffer:false});
  const vertexShader='varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
  const blurUniforms={image:{value:target.texture},direction:{value:new T.Vector2()}};
  const blurMat=new T.ShaderMaterial({uniforms:blurUniforms,depthTest:false,depthWrite:false,toneMapped:false,vertexShader,fragmentShader:`uniform sampler2D image;uniform vec2 direction;varying vec2 vUv;void main(){vec3 col=texture2D(image,vUv).rgb*.227027027;col+=(texture2D(image,vUv+direction).rgb+texture2D(image,vUv-direction).rgb)*.194594595;col+=(texture2D(image,vUv+direction*2.).rgb+texture2D(image,vUv-direction*2.).rgb)*.121621622;col+=(texture2D(image,vUv+direction*3.).rgb+texture2D(image,vUv-direction*3.).rgb)*.054054054;col+=(texture2D(image,vUv+direction*4.).rgb+texture2D(image,vUv-direction*4.).rgb)*.016216216;gl_FragColor=vec4(col,1.);}`});

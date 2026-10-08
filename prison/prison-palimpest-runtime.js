@@ -67,7 +67,7 @@ export async function createPrisonPalimpsestDemo({canvas,ui={},renderer,traveler
  const blur=()=>{keyDirection=0;interaction.pointerCancel();clearCapture();};
  const handlers={onpointerdown:pointerDown,onpointermove:pointerMove,onpointerup:pointerUp,onpointercancel:pointerCancel,onlostpointercapture:lostPointerCapture,onkeydown:keyDown,onkeyup:keyUp,onblur:blur},previousHandlers=Object.fromEntries(Object.keys(handlers).map(key=>[key,canvas[key]]));
  if(bindControls)Object.assign(canvas,handlers);
- function setKeyDirection(direction){if(mode!=='puzzle'||currentStage==='corridor'||!interaction.enabled||transition||pendingId||route.length){keyDirection=0;return false;}keyDirection=Math.sign(Number(direction)||0);return true;}
+ function setKeyDirection(direction){if(mode!=='puzzle'||currentStage==='corridor'||!interaction.enabled||transition||pendingId||route.length){keyDirection=0;return false;}keyDirection=Math.max(-1,Math.min(1,Number(direction)||0));return true;}
  function cancelInput(){keyDirection=0;interaction.pointerCancel();clearCapture();}
  let target=null,screen=null,screenCamera=null,screenMaterial=null;
  if(renderer?.setRenderTarget){

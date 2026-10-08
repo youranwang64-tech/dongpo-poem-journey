@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {loadPoemFont} from './startup-support.js';
 const SOURCE='https://zh.wikisource.org/zh-hans/湖州謝上表';
 const TEXT=`臣轼言。蒙恩就移前件差遣，已于今月二十日到任上讫者。风俗阜安，在东南号为无事；山水清远，本朝廷所以优贤。顾惟何人，亦与兹选。臣轼。（中谢）
 
@@ -65,7 +66,7 @@ export function decorateWorldManuscriptReader(stage,config={}){
  function update(time,...args){const supplied=args[1],dt=Number.isFinite(supplied)?supplied:lastTime===null?0:Math.max(0,Math.min(.06,time-lastTime));lastTime=time;const value=oldUpdate?.(time,...args);updateThanksLetterReading(dt);hidePaperTrail();return value;}
  function reset(...args){const value=oldReset?.(...args);reading=false;openness=0;lastTime=null;syncScroll();hidePaperTrail();return value;}
  const readCamera=getThanksLetterCamera();
- const fontReady=globalThis.document?.fonts?.load?document.fonts.load('88px "Poem"',info.text).then(()=>manuscript.draw()).catch(()=>{}):Promise.resolve();
+ const fontReady=loadPoemFont().then(()=>manuscript.draw());
  stage.ready=Promise.all([stage.ready||Promise.resolve(),fontReady]);
  Object.assign(stage,{update,reset,beginThanksLetterReading,endThanksLetterReading,updateThanksLetterReading,getThanksLetter:()=>({...info}),getThanksLetterCamera});
  stage[key]={paper,scroll,readingGroup:scroll,readingPaper,rollers,readingLight,texture:manuscript.texture,scrollTexture,canvas:manuscript.canvas,paperTrails,readCamera,characterCount:manuscript.characterCount,cells:manuscript.cells,draw:manuscript.draw,get reading(){return reading;},get openness(){return openness;},get stats(){return {title:info.title,characterCount:manuscript.characterCount,paperPosition:paper.getWorldPosition(V()).toArray(),paperSize:[...paperSize],reading,openness,readingPosition:scroll.getWorldPosition(V()).toArray(),readingSize:[width,depth],columns:manuscript.columns,rows:manuscript.rows,canvasSize:[manuscript.canvas.width,manuscript.canvas.height],removedPaperTrails:paperTrails.length,source:info.source};}};

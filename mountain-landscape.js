@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {loadTextureWithRetry} from './reliable-assets.js';
 import {addTree} from './plants.js';
 import {createCloudBank} from './chapter-clouds.js';
 
@@ -6,16 +7,16 @@ const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
 const INK_PANORAMA_URL=new URL('./assets/textures/lushan-ink-panorama-v1.png',import.meta.url);
 let inkPanoramaPromise;
 function loadInkPanorama(){
- if(!inkPanoramaPromise)inkPanoramaPromise=new T.ImageBitmapLoader().setOptions({imageOrientation:'flipY',premultiplyAlpha:'none'}).loadAsync(INK_PANORAMA_URL.href).then(bitmap=>{
-  const texture=new T.Texture(bitmap);texture.name='原创庐山水墨长卷';texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.ClampToEdgeWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.flipY=false;texture.needsUpdate=true;return texture;
+ if(!inkPanoramaPromise)inkPanoramaPromise=loadTextureWithRetry(T,INK_PANORAMA_URL.href).then(texture=>{
+  texture.name='原创庐山水墨长卷';texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.ClampToEdgeWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.needsUpdate=true;return texture;
  });
  return inkPanoramaPromise;
 }
 const ROCK_TEXTURE_URL=new URL('./assets/textures/lushan-rock-v1.png',import.meta.url);
 let rockTexturePromise;
 function loadRockTexture(){
- if(!rockTexturePromise)rockTexturePromise=new T.ImageBitmapLoader().setOptions({imageOrientation:'flipY',premultiplyAlpha:'none'}).loadAsync(ROCK_TEXTURE_URL.href).then(bitmap=>{
-  const texture=new T.Texture(bitmap);texture.name='庐山灰岩裂隙';texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.flipY=false;texture.needsUpdate=true;return texture;
+ if(!rockTexturePromise)rockTexturePromise=loadTextureWithRetry(T,ROCK_TEXTURE_URL.href).then(texture=>{
+  texture.name='庐山灰岩裂隙';texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.needsUpdate=true;return texture;
  });
  return rockTexturePromise;
 }

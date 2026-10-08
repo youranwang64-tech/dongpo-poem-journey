@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {loadPoemFont} from './startup-support.js';
 import {addBamboo,addBroadleaf} from './plants.js';
 import {createAtmosphere} from './atmosphere.js';
 import {decorateGardenInk} from './garden-ink-experience.js';
@@ -103,7 +104,7 @@ export function buildLycheeScene(){
  ];
 
  const poemTable=box(1.9,.12,1,V(16,2.8,-9.1),mats.stone);poemTable.name='庭院题诗石案';for(const x of [15.3,16.7])box(.18,.8,.75,V(x,2.4,-9.1),mats.stone);const poemPaper=box(1.4,.018,.66,V(16,2.873,-9.1),mats.paper);poemPaper.name='石案上的题诗纸';
- const poemCanvas=document.createElement('canvas');poemCanvas.width=2048;poemCanvas.height=1024;const poemContext=poemCanvas.getContext('2d'),poemTexture=new T.CanvasTexture(poemCanvas);poemTexture.colorSpace=T.SRGBColorSpace;function paintGardenPoem(){poemContext.clearRect(0,0,2048,1024);poemContext.font='224px Poem, serif';poemContext.textAlign='center';poemContext.textBaseline='middle';poemContext.fillStyle='#39402d';poemContext.fillText('日啖荔枝三百颗',1024,320);poemContext.fillText('不辞长作岭南人',1024,680);poemTexture.needsUpdate=true;}paintGardenPoem();document.fonts?.load?.('224px Poem','日啖荔枝三百颗不辞长作岭南人').then(paintGardenPoem);
+ const poemCanvas=document.createElement('canvas');poemCanvas.width=2048;poemCanvas.height=1024;const poemContext=poemCanvas.getContext('2d'),poemTexture=new T.CanvasTexture(poemCanvas);poemTexture.colorSpace=T.SRGBColorSpace;function paintGardenPoem(){poemContext.clearRect(0,0,2048,1024);poemContext.font='224px Poem, serif';poemContext.textAlign='center';poemContext.textBaseline='middle';poemContext.fillStyle='#39402d';poemContext.fillText('日啖荔枝三百颗',1024,320);poemContext.fillText('不辞长作岭南人',1024,680);poemTexture.needsUpdate=true;}paintGardenPoem();loadPoemFont().then(paintGardenPoem);
  const poemLetters=mesh(new T.PlaneGeometry(1.36,.62).rotateX(-Math.PI/2),new T.MeshBasicMaterial({map:poemTexture,transparent:true,opacity:0,depthWrite:false,toneMapped:false}),V(16,2.887,-9.1));poemLetters.name='题诗后留在真实纸面的荔枝诗';poemLetters.castShadow=false;
  const windowLatch=box(.14,.22,.10,V(-1.25,.97,.14),mats.wood,shutters[1].g);windowLatch.name='随真实窗扇转开的木窗闩';
  const cameraZones=[{id:'study',type:'perspective',position:[2.4,2.55,-3.35],lookAt:[-2.55,1.20,-1.95],fov:43,test:p=>p.x<5.9&&p.z<-1.12},{id:'entry',type:'perspective',position:[0,4.8,28],lookAt:[0,1.7,3.8],test:p=>p.x<11.5&&p.z>6.5},{id:'court',type:'perspective',position:[24,8,23],lookAt:[6,1.9,1.5],height:15.5,test:p=>p.x<11.5&&p.z<=6.5},{id:'orchard',type:'perspective',position:[16,8,18],lookAt:[16,3,-6],test:p=>p.x>=11.5}];

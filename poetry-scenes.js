@@ -1,4 +1,6 @@
 import * as T from './vendor/three.module.js';
+import {loadPoemFont} from './startup-support.js';
+import {fetchAsset} from './reliable-assets.js';
 import {createAtmosphere} from './atmosphere.js';
 
 const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -6,7 +8,7 @@ const clamp=T.MathUtils.clamp;
 const smooth=(a,b,x)=>T.MathUtils.smoothstep(x,a,b);
 function rng(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};}
 function canvasTexture(canvas){const t=new T.CanvasTexture(canvas);t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;return t;}
-function fontReady(){return document.fonts?.load('72px Poem')||Promise.resolve();}
+function fontReady(){return loadPoemFont();}
 function paperTexture(){
  const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d'),r=rng(182);ctx.fillStyle='#e8e5dd';ctx.fillRect(0,0,512,512);
  for(let i=0;i<18500;i++){ctx.fillStyle=r()>.5?'rgba(91,86,76,.020)':'rgba(252,250,243,.08)';ctx.fillRect(r()*512,r()*512,.3+r()*.8,1+r()*5);}
@@ -114,7 +116,7 @@ export function buildPrologue(){
   ['自题金山画像','心似已灰之木，身如不系之舟。','问汝平生功业，黄州惠州儋州。'],
   ['定风波·南海归赠王定国侍人寓娘','常羡人间琢玉郎，天应乞与点酥娘。','试问岭南应不好，却道：此心安处是吾乡。']
  ];
- result.ready=Promise.all([fontReady(),import('./prologue-poems.js'),fetch(new URL('./原文与参考视频对应.txt',import.meta.url)).then(response=>{if(!response.ok)throw new Error('彩蛋诗文读取失败');return response.text();})]).then(([,library,source])=>{
+ result.ready=Promise.all([fontReady(),import('./prologue-poems.js'),fetchAsset(new URL('./原文与参考视频对应.txt',import.meta.url),{kind:'text'})]).then(([,library,source])=>{
   catalog=library.PROLOGUE_POEMS;eventFor=library.prologuePoemEvent;
   const background=passages.filter(([title])=>title!=='题西林壁').map(([title,start,end])=>{const a=source.indexOf(start),b=source.indexOf(end,a);if(a<0||b<0)throw new Error(`彩蛋原文缺少《${title}》`);return {title,text:(source.slice(a,b+end.length).match(/[\u4e00-\u9fff]/g)||[]).join('')};});
   const poems=[...catalog.map(p=>({title:p.title,text:p.lines.join('')})),...background];

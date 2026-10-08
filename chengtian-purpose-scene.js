@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {loadTextureWithRetry} from './reliable-assets.js';
 import {buildChengtianNightScene} from './chengtian-night-scene.js';
 import {addChengtianStudyWindowPaper} from './chengtian-study-paper.js';
 import {addChengtianStudyCurtain} from './chengtian-study-curtain.js';
@@ -50,7 +51,7 @@ export function buildChengtianPurposeScene(){
   const mesh=new T.Mesh(new T.PlaneGeometry(1,referenceHeight),material);mesh.position.copy(referenceEye.clone().lerp(referenceCentre,ratio));mesh.scale.set(ratio,ratio,1);mesh.name=['怀民剪影 · 远层头肩','怀民剪影 · 中层袖手','怀民剪影 · 近层衣摆'][i];mesh.raycast=()=>{};mesh.castShadow=false;mesh.renderOrder=3+i*.01;silhouetteRoot.add(mesh);shadowLayers.push(mesh);silhouetteUniforms.push(uniforms);
  }
  const silhouetteStats={asset:'assets/textures/chengtian-huaimin-silhouette-v1.png',loaded:false,referenceEye:referenceEye.toArray(),referenceCentre:referenceCentre.toArray(),worldDepths:[...shadowDepths],layerCount:3,flatInkSilhouette:true,complementaryMasks:true,alignment:0,normalizedError:null,aligned:false,insideWindow:false};
- const silhouetteReady=new T.TextureLoader().loadAsync(new URL('./assets/textures/chengtian-huaimin-silhouette-v1.png',import.meta.url).href).then(map=>{map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.ClampToEdgeWrapping;map.anisotropy=4;const aspect=map.image.width/map.image.height;for(let i=0;i<shadowLayers.length;i++){shadowLayers[i].geometry.dispose();shadowLayers[i].geometry=new T.PlaneGeometry(referenceHeight*aspect,referenceHeight);silhouetteUniforms[i].artwork.value=map;}silhouetteStats.loaded=true;silhouetteStats.width=map.image.width;silhouetteStats.height=map.image.height;});
+ const silhouetteReady=loadTextureWithRetry(T,new URL('./assets/textures/chengtian-huaimin-silhouette-v1.png',import.meta.url).href).then(map=>{map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.ClampToEdgeWrapping;map.anisotropy=4;const aspect=map.image.width/map.image.height;for(let i=0;i<shadowLayers.length;i++){shadowLayers[i].geometry.dispose();shadowLayers[i].geometry=new T.PlaneGeometry(referenceHeight*aspect,referenceHeight);silhouetteUniforms[i].artwork.value=map;}silhouetteStats.loaded=true;silhouetteStats.width=map.image.width;silhouetteStats.height=map.image.height;});
  const silhouetteCentre=shadowLayers[1].position.clone(),silhouetteRay=new T.Raycaster();
  function measureSilhouette(player,camera){const blank={alignment:0,aligned:false,normalizedError:Infinity,insideWindow:false};if(!player||!camera||!silhouetteStats.loaded)return blank;camera.updateMatrixWorld(true);silhouetteRoot.updateWorldMatrix(true,true);
   const projections=shadowLayers.map(layer=>[[.30,.25],[.70,.25],[.30,.78],[.70,.78],[.50,.50]].map(([u,v])=>V((u-.5)*layer.geometry.parameters.width,(v-.5)*referenceHeight,0).applyMatrix4(layer.matrixWorld).project(camera)));

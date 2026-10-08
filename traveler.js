@@ -1,9 +1,10 @@
 import * as T from './vendor/three.module.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
+import {loadGLBWithRetry} from './reliable-assets.js';
 
 // The user's mesh, texture, skeleton and baked actions live in one offline GLB.
 export async function createTraveler(){
- const gltf=await new GLTFLoader().loadAsync('assets/traveler-rigged.glb');
+ const gltf=await loadGLBWithRetry(new GLTFLoader(),new URL('./assets/traveler-rigged.glb',import.meta.url).href);
  const root=new T.Group(),body=gltf.scene;body.rotation.y=Math.PI;root.add(body);
  let skinCount=0;
  body.traverse(n=>{

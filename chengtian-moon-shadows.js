@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {loadTextureWithRetry} from './reliable-assets.js';
 
 /** Original alpha artwork: asymmetric bamboo and cypress moon shadows.
  * The single non-tiled projection preserves the paving between branches. */
@@ -9,7 +10,7 @@ export function createChengtianMoonShadows(root){
  mesh.name='竹柏交横月影 · 原创疏影投影';mesh.raycast=()=>{};root.add(mesh);
  const stats={asset:'assets/textures/chengtian-bamboo-cypress-shadow-v1.png',loaded:false,repeating:false,alphaPreserved:true};
  // Await the real artwork before entering, just as we await plant models.
- const ready=new T.TextureLoader().loadAsync(new URL('./assets/textures/chengtian-bamboo-cypress-shadow-v1.png',import.meta.url).href).then(map=>{
+ const ready=loadTextureWithRetry(T,new URL('./assets/textures/chengtian-bamboo-cypress-shadow-v1.png',import.meta.url).href).then(map=>{
   map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.ClampToEdgeWrapping;map.anisotropy=4;
   material.map=map;material.needsUpdate=true;stats.loaded=true;stats.width=map.image.width;stats.height=map.image.height;
  });

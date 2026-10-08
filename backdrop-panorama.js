@@ -1,6 +1,7 @@
 import * as T from './vendor/three.module.js';
+import {loadTextureWithRetry,assetWarning} from './reliable-assets.js';
 
-const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),textureCache=new Map(),LOAD_TIMEOUT=20000;
+const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),textureCache=new Map();
 const RIVER=new URL('./assets/textures/dongpo-river-village-panorama-v1.png',import.meta.url).href;
 const CITY=new URL('./assets/textures/dongpo-city-rooftops-panorama-v1.png',import.meta.url).href;
 const supported=new Set([0,1,3,4,5,7]);
@@ -48,12 +49,7 @@ void main(){
 
 function loadPanorama(url){
  if(textureCache.has(url))return textureCache.get(url);
- const promise=new Promise((resolve,reject)=>{
-  let settled=false,timer;
-  const finish=(error,texture)=>{if(settled){texture?.dispose();return;}settled=true;clearTimeout(timer);if(error){reject(new Error(`远景画卷加载失败：${url.split('/').at(-1)} (${error.message||error})`));return;}texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.ClampToEdgeWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.needsUpdate=true;resolve(texture);};
-  timer=setTimeout(()=>finish(new Error('等待图片超过 20 秒')),LOAD_TIMEOUT);
-  try{new T.TextureLoader().load(url,texture=>finish(null,texture),undefined,error=>finish(error||new Error('图片无法读取')));}catch(error){finish(error);}
- });
+ const promise=loadTextureWithRetry(T,url).then(texture=>{texture.colorSpace=T.SRGBColorSpace;texture.wrapS=texture.wrapT=T.ClampToEdgeWrapping;texture.minFilter=T.LinearMipmapLinearFilter;texture.magFilter=T.LinearFilter;texture.anisotropy=4;texture.needsUpdate=true;return texture;});
  textureCache.set(url,promise);promise.catch(()=>{if(textureCache.get(url)===promise)textureCache.delete(url);});return promise;
 }
 
@@ -102,7 +98,10 @@ export function decoratePanoramaBackdrop(stage,index){
  }
  let loaded=false,error=null,texture=null;
  const previousReady=stage.ready;
- stage.ready=Promise.all([Promise.resolve(previousReady),loadPanorama(url)]).then(([,map])=>{texture=map;for(const layer of layers)layer.uniforms.panoramaMap.value=map;loaded=true;group.visible=true;return stage;}).catch(reason=>{error=reason.message;group.visible=false;throw reason;});
+ // A distant matte painting is decoration, not a prerequisite for walking.
+ // Let the playable architecture open while slow mobile transfers finish.
+ stage.ready=Promise.resolve(previousReady);
+ stage.backdropReady=loadPanorama(url).then(map=>{texture=map;for(const layer of layers)layer.uniforms.panoramaMap.value=map;loaded=true;group.visible=true;return stage;}).catch(reason=>{error=reason.message;group.visible=false;assetWarning('远景画卷暂时未载入',reason);return stage;});
  stage.panoramaBackdrop={group,layers,get texture(){return texture;}};
  stage.updateBackdrop=()=>{const state=fogState(stage);for(const layer of layers){layer.uniforms.panoramaFogColor.value.copy(state.color);layer.uniforms.panoramaFogDensity.value=state.density;}};
  Object.defineProperty(stage,'backdropStats',{configurable:true,get(){return {enabled:true,index,kind:city?'city-rooftops':'river-village',loaded,error,texture:url.split('/').at(-1),width:texture?.image?.width||0,height:texture?.image?.height||0,meshes:layers.length,drawCalls:layers.length,triangles:layers.reduce((sum,layer)=>sum+layer.mesh.geometry.index.count/3,0),fixedWorld:true,billboard:false,centre:centre.toArray(),spanDegrees:248,nearRadius:radius,minRouteClearance:radius-halfRoute,uvCrop:specs[1].uv.slice(),bottom:specs[1].bottom,top:specs[1].bottom+nearHeight,fogDensity:layers[0].uniforms.panoramaFogDensity.value,textureUploadsPerFrame:0};}});

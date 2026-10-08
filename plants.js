@@ -1,5 +1,6 @@
 import * as T from './vendor/three.module.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
+import {loadGLBWithRetry} from './reliable-assets.js';
 
 // Local CC0 botanical meshes. Sources and the canopy rendering treatment are recorded in assets/plants/LICENSE.txt.
 const loader=new GLTFLoader(),cache=new Map();
@@ -29,7 +30,7 @@ function plantTint(material,tint){
 }
 function random(seed){return()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
 function load(name){
- if(!cache.has(name))cache.set(name,loader.loadAsync(new URL(`./assets/plants/${name}.glb`,import.meta.url).href).then(g=>{
+ if(!cache.has(name))cache.set(name,loadGLBWithRetry(loader,new URL(`./assets/plants/${name}.glb`,import.meta.url).href).then(g=>{
   g.scene.updateMatrixWorld(true);
   g.scene.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;
    const mats=Array.isArray(o.material)?o.material:[o.material];
@@ -56,7 +57,7 @@ function load(name){
     m.customProgramCacheKey=()=>canopy?'cc0-soft-canopy-coverage-3':'cc0-botanical-wind-1';
    }
   });return g.scene;
- }));return cache.get(name);
+ }).catch(error=>{cache.delete(name);throw error;}));return cache.get(name);
 }
 function keepTime(mesh){mesh.onBeforeRender=()=>{for(const m of(Array.isArray(mesh.material)?mesh.material:[mesh.material]))if(m.userData.wind)m.userData.wind.value=performance.now()*.001;};}
 function range(value,r,defaultValue){if(Array.isArray(value))return value[0]+r()*(value[1]-value[0]);return value??defaultValue;}

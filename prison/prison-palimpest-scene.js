@@ -1,4 +1,5 @@
 import * as T from '../vendor/three.module.js';
+import {loadTextureWithRetry} from '../reliable-assets.js';
 import {buildScene} from '../scenes.js';
 import {decorateBorrowedView} from '../borrowed-view-experience.js';
 import {decorateArchitecture} from '../architecture-detail.js';
@@ -143,10 +144,10 @@ export function buildPrisonPalimpsestScene(){
  const silhouetteMaterial=new T.MeshBasicMaterial({map:silhouetteTexture,transparent:true,opacity:.90,depthWrite:true,side:T.DoubleSide,alphaTest:.012,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
  const corridorPick=new T.Mesh(new T.PlaneGeometry(1.92,3.0),silhouetteMaterial);corridorPick.position.set(5.765,1.56,1.05);corridorPick.rotation.y=-Math.PI/2;corridorPick.name='真实廊墙上的斗笠长袍水墨剪影';corridorPick.userData.prisonWashPick=true;root.add(corridorPick);
  const corridorRest=corridorPick.position.clone(),corridorPicks=[corridorPick];
- const silhouetteReady=new Promise((resolve,reject)=>new T.TextureLoader().load('./assets/wall-ink-silhouette-v2.png',texture=>{
+ const silhouetteReady=loadTextureWithRetry(T,new URL('../assets/wall-ink-silhouette-v2.png',import.meta.url).href).then(texture=>{
   silhouetteMaterial.map=texture;texture.colorSpace=T.SRGBColorSpace;
-  const c=document.createElement('canvas');c.width=64;c.height=96;const cx=c.getContext('2d');cx.drawImage(texture.image,0,0,64,96);silhouettePixels=cx.getImageData(0,0,64,96).data;resolve();
- },undefined,reject));
+  const c=document.createElement('canvas');c.width=64;c.height=96;const cx=c.getContext('2d');cx.drawImage(texture.image,0,0,64,96);silhouettePixels=cx.getImageData(0,0,64,96).data;silhouetteMaterial.needsUpdate=true;
+ });
  const moonReturn=new T.PointLight(0xa6bfd5,0,3.5,1.6);moonReturn.position.set(5.48,2.2,2.48);scene.add(moonReturn);
  const quietFill=new T.PointLight(0xc6d1df,2.5,6.2,1.4);quietFill.position.set(-4.5,3.2,1.6);quietFill.castShadow=false;scene.add(quietFill);
  const corridorFill=new T.PointLight(0xb6c4d3,2.25,6.5,1.4);corridorFill.position.set(2.55,3.7,1.4);corridorFill.castShadow=false;scene.add(corridorFill);
