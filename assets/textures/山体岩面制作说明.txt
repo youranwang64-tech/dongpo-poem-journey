@@ -1,0 +1,8 @@
+山体岩面贴图
+
+文件：lushan-rock-v1.png
+用途：庐山章节三维岩石表面的裂纹、石纹与小幅凹凸。重峦叠嶂由实体山体的前后排布和谷雾表现。
+方式：Codex 内置 image_gen 生成。没有使用 CLI 或外部图像 API。
+
+生成提示（原文）
+Use case: stylized-concept. Asset type: seamless square diffuse texture for a 3D Chinese mountain cliff in a monochrome poetic game. Generate one 2048x2048 or highest practical square tile of rugged natural gray granite and layered metamorphic mountain rock, seen straight-on orthographically with no perspective or horizon. Fine irregular vertical fissures, oblique fractured stone veins, weather-worn sharp crags, mineral grain, occasional subdued lichen embedded in the stone. Mix broad worn rock planes with convincing small cracks, not cobblestones or stacked masonry. Low saturation stone-gray with subtle cool gray and olive mineral undertones. Neutral flat overcast lighting, no cast shadows or directional highlights baked in, moderate value contrast, no very black pits, no overly white highlights. Quiet realism with restrained ink-wash tonal character, detailed enough for a 3D rock material. Texture must fill the full image edge to edge, seamless tile on both axes. No mountain silhouette, no sky, no trees, no water, no mist, no scene, no text, no UI, no border, no watermark.

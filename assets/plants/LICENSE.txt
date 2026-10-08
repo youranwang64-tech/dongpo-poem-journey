@@ -1,0 +1,32 @@
+植物模型来源与改动
+
+竹子：Free Bamboo v1 — Yughues / Nobiax
+https://opengameart.org/content/free-bamboo-v1
+原包 bamboo v1.7z（2012），1440 triangles，1024px diffuse+alpha / normal。
+许可：CC0 1.0 Universal，公有领域。
+https://creativecommons.org/publicdomain/zero/1.0/
+本项目改动：Y-up GLB，规范高度8米、底面0米；叶片降低饱和度；TGA转PNG。
+文件：bamboo.glb
+
+松树：Pine Sapling Small — Rico Cilliers（建模）/ Rob Tuytel（摄影），Poly Haven
+https://polyhaven.com/a/pine_sapling_small
+https://polyhaven.com/license
+许可：CC0 1.0 Universal，公有领域。
+原模型共3种形态，约398K triangles；1K PBR纹理。
+本项目改动：三种形态各减到72000 triangles，规范高度8米、底面0米，纹理嵌入GLB，针叶加入原始透明遮罩、降低饱和度。
+文件：pine_a.glb / pine_b.glb / pine_c.glb
+
+下载与优化：2026-10-03。
+
+阔叶树渲染修订：2026-10-03。
+保留真实有机枝干与叶片几何。阔叶树使用保持透明覆盖率的Mip纹理（过滤后叶面积最多增加27.5%），减少远处叶片消失；叶面改为低对比颜色、无细碎法线高光、全粗糙度，2x MSAA下使用alpha-to-coverage缓和轮廓。未加入球形树冠或粗糙几何团块。
+资产可用于个人、竞赛及商业项目，不要求署名。此文件保留来源以便团队追溯。
+
+阔叶果园树：Tree Small 02 — Rico Cilliers，Poly Haven
+https://polyhaven.com/a/tree_small_02
+https://polyhaven.com/license
+许可：CC0 1.0 Universal，公有领域。
+源树种：Burkea africana / Wild syringa。作为荔枝园的诗意阔叶树形替代，并非植物学准确的荔枝树。
+本项目改动：原glTF共2062487三角面，枝干与叶片拓扑优化至150000三角面；规范高度8米、根底0米；1K PBR，原始叶片透明遮罩合并到颜色图，饱和度降至65%；GLB嵌入全部纹理。
+文件：broadleaf_a.glb。
+下载与优化：2026-10-03。

@@ -1,0 +1,7 @@
+墙面墨影素材：透明背景的斗笠长袍水墨剪影
+生成方式：内置 imagegen。该图片只用于本地独立监狱样张。
+原始尺寸：1024 × 1536 RGBA。保留原始透明通道，无二次抠图。
+游戏输入从原图透明通道读取，透明空白区域不计入描影。
+
+Final prompt:
+Use case: stylized-concept. Asset type: transparent PNG silhouette texture for a refined Chinese ink architectural game, wall-bound silhouette puzzle. Generate exactly one full-length anonymous Chinese scholar wearing a wide conical bamboo hat and a long straight Song-dynasty robe. Pure planar nearly-black ink silhouette, recognizable coherent single outline. Three-quarter side profile, standing quietly, a slim brush held low in one hand. No face, no facial features, no photorealism, no shaded anatomy, no modeled clothing folds, no interior highlights or realistic lighting. Exquisite organic sumi-ink soft feathering and subtle dry-brush variation only at the outer contour, strong unified black mass inside. Refined restrained silhouette suitable for tracing broad gesture in game, no decorative splatters, no stray dots, no calligraphy, no ground, no shadow, no backdrop. Entire hat, robe, hands, brush and two feet visible with generous transparent margin. Portrait composition on truly transparent background, one figure only.

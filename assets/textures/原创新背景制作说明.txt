@@ -1,0 +1,26 @@
+原创新背景制作说明
+
+生成方式：内置 image_gen，按项目需要原创绘制；没有使用现成名画、截图或既有建筑地图。
+用途：作为三维场景之外的连续弧形水墨画境，前方模型、人物、门窗和行走路径仍可交互。
+两图均为2172×724像素；正式路径如下。
+
+assets/textures/dongpo-river-village-panorama-v1.png
+完整生成提示：
+Use case: historical-scene
+Asset type: original wide horizontal environmental matte-painting texture for a gray ink-wash 3D game, reused behind Huangzhou distant villages, Shahu wooded hills and Red Cliff riverbank.
+Primary request: create a single original Chinese Song-dynasty-inspired landscape handscroll image, approximately 3:1 horizontal panorama (ideally 3072 by 1024 or 3840 by 1280), immersive continuous scenery rather than a photographed scroll.
+Scene/backdrop: a broad winding river bay and quiet riverbanks, gently sloping cultivated fields, scattered small low rural cottages with simple gray tiled roofs, fine slender pine groves and wooded slopes, reeds at the water edge, and articulated shoreline rocks. Layered overlapping ridges rise beyond the village and river. Prioritize readable river, fields, village buildings, trees and banks in the lower half, rather than a mountain-only landscape.
+Style/medium: Chinese ink and light mineral-green wash on pale neutral-gray rice paper; original brush-drawn dry-brush rock texture, fine varied tree marks, restrained architectural linework, softly bleeding ink washes, atmospheric perspective. Traditional spatial layering combined with an immersive environmental matte painting. Do not reproduce or quote any existing famous painting.
+Composition/framing: extra-wide panorama, connected natural terrain flowing across the entire width, river curves and riverbank details create depth in the lower half. Foreground and middle-distance details are legible in medium gray ink, darker small accents on rocks and pine branches, distant mountains are very faint gray. The upper half is mostly quiet shallow pale-gray fog and open air with only faint distant ridges. Preserve this large atmospheric upper negative space. The bottom edge gradually dissolves naturally into the same pale-gray mist and paper tone, no abrupt rectangular boundary. No mounted scroll ends, no border or frame.
+Lighting/mood: soft humid overcast river morning, luminous gray mist, tranquil and poetic, clear landscape structure beneath the fog.
+Color palette: neutral light gray background, layered light and medium charcoal-gray ink with very subdued dilute ink-green in vegetation; avoid warm brown antique-paper tint and avoid vivid color.
+Constraints: no people, no human figures, no characters, no lettering, no calligraphy, no seals or red stamps, no labels, no watermark, no UI, no logos, no frame. No modern buildings, vehicles or power lines. No copied existing landscape painting. One coherent original panorama, sufficient small natural and village details in the lower half, subtle paper texture, soft feathered atmospheric edges.
+
+assets/textures/dongpo-city-rooftops-panorama-v1.png
+完整生成提示：
+Use case: stylized-concept.
+Asset type: original background texture for a real-time 3D Chinese ink-wash poetry game, a very wide horizontal panorama, approximately 3:1 aspect ratio, long handscroll format.
+Primary request: an entirely original poetic Song-era Chinese walled city in the middle distance and far distance, with many layered grey tiled pitched rooftops, overlapping courtyard compounds and roof ridgelines, a few small distant traditional city gate towers, and finely drawn slender trees. It should evoke a traditional Jiangnan / Song Chinese city without claiming archaeological reconstruction.
+Style/medium: beautifully restrained monochrome Chinese ink-wash painting with fine ink linework, soft mineral-grey washes, a barely perceptible muted grey-green cast. Real perspective and layered believable architecture; roof tiles, sloping roof lines, timber eaves and small tree crowns remain clearly legible, detailed and continuous, not vague black silhouettes. Mid-grey contrast suitable for a misty 3D game backdrop.
+Composition/framing: very wide 3:1 panoramic landscape. All the city buildings are small and distant, concentrated in the LOWER HALF of the image, occupying roughly the lower 40–45 percent, with interlocking roof layers gently stepping back into atmospheric perspective. Upper 55–60 percent is generous quiet pale-grey cloudy mist and empty sky, nearly uniform in tone with subtle soft cloud transitions. Lowest edge dissolves gently into a thin pale-grey mist so it can merge into a scene. No giant foreground structure, no foreground tree blocking the view, no close roof cut off at the bottom, no dramatic mountain massif. Soft diffuse overcast lighting, no hard shadows, no intense black or white contrast.
+Constraints: original composition, no copying or recreating any existing painting or film frame. No people, no animals, no writing, no letters, no calligraphy, no inscriptions, no seals, no red stamp, no watermark, no modern objects. Opaque background. No decorative borders or handscroll paper framing. This is the image itself, not an image of a hanging artwork or paper sheet.

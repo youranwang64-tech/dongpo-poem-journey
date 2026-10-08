@@ -1,0 +1,14 @@
+原创竹柏月影贴图
+制作模式：内置 image_gen 图片生成工具；全新原创生成，并非复制已有画作。
+文件：chengtian-bamboo-cypress-shadow-v1.png
+透明度：保留原始 PNG alpha；1536×1024，无平铺。
+用途：承天夜游干石庭上的竹柏疏影；与实体植物软阴影结合。枝叶疏密、虚实不一，月光与石砖仍从间隙可见。
+最终生成提示：
+Use case: stylized-concept.
+Asset type: transparent projected shadow texture for a moonlit Chinese courtyard in a refined 3D narrative game.
+Primary request: Create an ORIGINAL natural bamboo-and-cypress shadow composition. This is only a shadow overlay, not a painted landscape or visible plants.
+Scene/backdrop: genuinely transparent background, with no ground, paper, sky, frame or scenery.
+Subject: overlapping silhouettes of irregular bamboo branches with elegant long tapered leaves and a few fine feathery cypress twigs. Branch clusters enter organically from the left and lower edges and arc diagonally across the image. Vary sizes, angles, leaf group density and the degree of shadow blur; some nearby twigs have clear contours and farther foliage has delicate soft penumbra. Preserve substantial clear negative space between clusters so the underlying paving will remain visible.
+Style/medium: realistic monochrome moon-cast botanical shadows, restrained and graceful, finely detailed, not botanical line art. Landscape composition, approximately 3:2.
+Color palette: charcoal shadow silhouettes with translucent edges on true alpha transparency. No colored or lit leaves.
+Constraints: unique, asymmetric, non-repeating branch structure. No rows of identical leaves, no decorative stamp motifs, no parallel evenly spaced stems, no checkerboard background, no labels or text, no people, no watermark, no copying an existing artwork.
