@@ -2,7 +2,9 @@
 
 以苏轼的诗文与人生行旅为线索的三维交互游戏。玩家随戴着斗笠的行旅者走过湖州、乌台、黄州、赤壁、庐山与岭南，用毛笔、行走和视点变化改变建筑空间，在交互之后阅读诗文。
 
-[在线试玩](https://dongpo-poem-journey.haochuangyiai.chatgpt.site)
+[在线试玩 · GitHub Pages](https://youranwang64-tech.github.io/dongpo-poem-journey/)
+
+[原发布地址](https://dongpo-poem-journey.haochuangyiai.chatgpt.site)
 
 ## 体验顺序
 
